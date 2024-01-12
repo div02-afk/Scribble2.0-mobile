@@ -15,6 +15,7 @@ export default function Join({ navigation, onBackPress }) {
   const [name, setName] = useState("");
   const [roomKey, setRoomKey] = useState("");
   const [joined, setJoined] = useState(false);
+  const [cannotJoin, setCannotJoin] = useState(false);
   const join = () => {
     store.dispatch({ type: "name", payload: name });
     store.dispatch({ type: "roomKey", payload: roomKey });
@@ -23,20 +24,30 @@ export default function Join({ navigation, onBackPress }) {
       playerName: name,
       justJoin: false,
     });
-    setJoined(true);
   };
-
+  
   useEffect(() => {
     socket.on("gameStarted", (data) => {
       if (data) {
         navigation.navigate("Player", { name: "Player" });
       }
     });
+    socket.on("cannotJoin", (data) => {
+      console.log("join status", data);
+      setCannotJoin(data);
+      setJoined(!data);
+      if(data){
+        alert("Cannot join room");
+      }
+      // alert("Cannot join room");
+    })
   }, [socket]);
 
   useEffect(() => {
     const backhandling = () => {
       if (onBackPress) {
+        socket.disconnect();
+        socket.connect();
         onBackPress(); // Call the onBackPress function from the props
       } else {
         navigation.goBack();
@@ -74,12 +85,13 @@ export default function Join({ navigation, onBackPress }) {
           </Pressable>
         </>
       )}
-      {joined && (
+      {(joined && !cannotJoin) && (
         <>
           <Text style={[styles.text,{marginBottom:50},{marginTop:20}]}>Waiting for host to start the game</Text>
           <PlayerList/>
         </>
       )}
+    
     </View>
   );
 }

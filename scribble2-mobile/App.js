@@ -13,10 +13,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Join" component={Join} />
-        <Stack.Screen name = "Host" component={Host}/>
-        <Stack.Screen name = "Player" component={Player}/>
+        <Stack.Screen name="Home" component={Home} options={{headerShown:false}} />
+        <Stack.Screen name="Join" component={Join} options={{ headerBackVisible:false }} />
+        <Stack.Screen name = "Host" component={Host} options={{ headerBackVisible:false }}/>
+        <Stack.Screen name = "Player" component={Player} options={{ headerBackVisible:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

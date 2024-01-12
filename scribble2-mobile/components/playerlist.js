@@ -23,7 +23,8 @@ export default function playerList() {
     });
   }, [socket]);
 
-  return (
+  return (<>
+      <Text style={styles.text}>Players</Text>
     <View style={styles.container}>
       {size === 0 && <Text>Waiting for players to join</Text>}
       {players.map((player, index) => (
@@ -32,6 +33,7 @@ export default function playerList() {
         </Text>
       ))}
     </View>
+    </>
   );
 }
 
@@ -47,6 +49,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     marginTop:20,
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 25,
+    marginTop: 10,
   },
   playerText: {
     width:100,

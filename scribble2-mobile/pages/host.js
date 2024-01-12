@@ -66,8 +66,14 @@ export default function Join({ navigation, onBackPress }) {
   };
   useEffect(() => {
     const backhandling = () => {
+      console.log("closing room");
+      socket.emit("closeRoom", { room: store.getState().roomKey});
+      // console.log(socket.connected);
+      socket.disconnect();
+      // console.log(socket.connected);
+      socket.connect();
+      // console.log(socket.connected);
       if (onBackPress) {
-        socket.emit("leaveRoom", roomKey);
         onBackPress(); // Call the onBackPress function from the props
       } else {
         navigation.goBack();
@@ -102,11 +108,9 @@ export default function Join({ navigation, onBackPress }) {
       )}
       {Joined && (
         <>
-          {/* <Text> Loading playerList</Text> */}
           <PlayerList />
-          {/* <Text style = {styles.text}>Click to Copy</Text> */}
           <Text style = {styles.text}>Room Key</Text>
-          <Text selectable = {true} style=  {styles.copyText}>{roomKey}</Text>
+          <Text style=  {styles.copyText} onPress={()=>{Clipboard.setString(roomKey)}}>{roomKey}</Text>
           <Pressable onPress={startGame} style={[styles.actionButton,styles.actionButton2]}>
             <Text style={styles.buttonText}>Start</Text>
           </Pressable>
