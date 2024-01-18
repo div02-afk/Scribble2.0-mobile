@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import socket from "./socket";
 import store from "./store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function playerList() {
   const [players, setPlayerList] = useState([]);
   const size  = players.length;

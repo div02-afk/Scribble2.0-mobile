@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   BackHandler,
+  ActivityIndicator,
 } from "react-native";
 
 import socket from "../components/socket";
@@ -26,7 +27,7 @@ export default function Player({navigation,onBackPress}){
    const name = store.getState().name;
     const roomKey = store.getState().roomKey;
     
-  let words;
+    const [words,setWords] = useState([]);
   const [chance, setChance] = useState(0);
   const [myChance, setMyChance] = useState(false);
 
@@ -52,7 +53,7 @@ export default function Player({navigation,onBackPress}){
       store.dispatch({type:"chance",payload:data.chance});
       store.dispatch({type:"words",payload:data.words});
       console.log("words", data.words);
-      words = data.words;
+      setWords(data.words);
       setChance(data.chance);
     //   AsyncStorage.setItem("chance", data.chance);
     });
@@ -89,10 +90,13 @@ export default function Player({navigation,onBackPress}){
   }, [chance]);
   
     return(
+      <>
+      {words.length === 0 ? <ActivityIndicator size="large" color="#0000ff" />:
         <View>
             <Text>Player Screen</Text>
             {myChance && <WordChoice />}
-            {/* {myChance && <Draw/>} */}
-        </View>
+            {myChance && <Draw/>}
+        </View>}
+        </>
     )
 }

@@ -16,6 +16,8 @@ import PlayerList from "../components/playerlist";
 import socket from "../components/socket";
 
 export default function Join({ navigation, onBackPress }) {
+  
+  const [chance, setChance] = useState(0);
   const [hostName, setHostName] = useState("");
   const [Joined, setJoined] = useState(false);
   const [roomKey, setRoomKey] = useState("");
@@ -56,6 +58,7 @@ export default function Join({ navigation, onBackPress }) {
     setRoomKey(uniqueID);
     setJoined(true);
   };
+
   const startGame = async () => {
     console.log("starting");
     await socket.emit("startGame", roomKey);
@@ -111,7 +114,7 @@ export default function Join({ navigation, onBackPress }) {
           <PlayerList />
           <Text style = {styles.text}>Room Key</Text>
           <Text style=  {styles.copyText} onPress={()=>{Clipboard.setString(roomKey)}}>{roomKey}</Text>
-          <Pressable onPress={startGame} style={[styles.actionButton,styles.actionButton2]}>
+          <Pressable onPress={startGame} style={[styles.actionButton,styles.actionButton2]} >
             <Text style={styles.buttonText}>Start</Text>
           </Pressable>
         </>
