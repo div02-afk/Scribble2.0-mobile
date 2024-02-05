@@ -15,6 +15,18 @@ import store from "../components/store";
 import PlayerList from "../components/playerlist";
 import socket from "../components/socket";
 
+const createUniqueID = () => {
+  // Function to generate a random alphanumeric room key
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const keyLength = 6; // You can adjust the key length as needed
+
+  let newKey = '';
+  for (let i = 0; i < keyLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    newKey += characters.charAt(randomIndex);
+  }
+  return newKey;
+}
 export default function Join({ navigation, onBackPress }) {
   
   const [chance, setChance] = useState(0);
@@ -32,7 +44,7 @@ export default function Join({ navigation, onBackPress }) {
       return;
     }
     console.log("creating room");
-    const uniqueID = new Date().getTime().toString();
+    const uniqueID = createUniqueID();
     const data = {
       room: uniqueID,
       hostName: hostName,

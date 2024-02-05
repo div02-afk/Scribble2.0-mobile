@@ -8,10 +8,9 @@ import {
   Alert,
   Pressable,
 } from "react-native";
-import Draw from "../components/draw";
 import { useState, useEffect } from "react";
 import React from "react";
-import store from "../components/store";
+
 export default function Home({ navigation }) {
 
   const hosting = () => {
@@ -41,6 +40,7 @@ export default function Home({ navigation }) {
 
   return (
     <View style = {styles.container}>
+
         <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Pressable  onPress={hosting} style = {styles.actionButton}>
           <Text style= {styles.text}>Host</Text>
@@ -49,7 +49,7 @@ export default function Home({ navigation }) {
           <Text style= {styles.text}>Join</Text>
         </Pressable>
         </View>
-        
+
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   View,
   Text,
@@ -9,19 +9,21 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import store from "./store";
 import {
   Canvas,
   DrawingTool,
 } from '@benjeau/react-native-draw';
-
+import socket from "./socket";
 export default function Draw() {
   const [brushSizeModalVisible, setBrushSizeModalVisible] = useState(false);
   const [brushSize, setBrushSize] = useState(3); // Default brush size
   const canvasRef = React.useRef(null);
+  const prev = React.useRef(null);
   const handleUndo = () => {
     canvasRef.current.undo();
   };
-
+  
   const handleClear = () => {
     canvasRef.current.clear();
   };
@@ -34,6 +36,18 @@ export default function Draw() {
     setBrushSize(size);
     setBrushSizeModalVisible(false);
   };
+
+  const draw = () => {
+    const drawInfo = {
+      imageData : canvasRef.current.getPaths(),
+      room: store.getState().roomKey,
+      time : new Date().getTime(),
+    };
+    console.log(canvasRef.current);
+    socket.emit("draw", drawInfo);
+    console.log("drawing in draw");
+  }
+  
 
   const brushSizeOptions = [1, 3, 5, 7]; // Add more options if needed
 
@@ -54,6 +68,7 @@ export default function Draw() {
         </View>
         <Canvas
         ref={canvasRef}
+        onPathsChange={draw}
           style={{
             height: 400,
             width: "100%",
@@ -61,6 +76,7 @@ export default function Draw() {
 
             borderColor: "#000000",
           }}
+          simplifyOptions={false}
           strokeColor={"#000000"}
           thickness={brushSize}
         />

@@ -22,6 +22,16 @@ export default function playerList() {
       setPlayerList(data.playerList);
     });
   }, [socket]);
+  
+// let intervel;
+//   if(size === 0){
+//   intervel = setInterval(() => {
+//     socket.emit("getPlayers", store.getState().roomKey);
+//   }, 1000);
+//   }
+//   if (size !== 0) {
+//     clearInterval(intervel);
+//   }
 
   return (<>
       <Text style={styles.text}>Players</Text>
